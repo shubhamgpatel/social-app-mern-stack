@@ -3,8 +3,7 @@ import { FaSun, FaMoon, FaUser, FaComments, FaBell, FaSearch } from 'react-icons
 
 export default function NavBar() {
   const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
+    localStorage.getItem("theme") === "dark"  );
 
   useEffect(() => {
     const root = window.document.documentElement;

@@ -20,7 +20,7 @@ app.use('/api/events', require('./routes/events'));
 app.use('/api/chat', require('./routes/chat'));
 
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('MongoDB connected')).catch((err) => console.error(err));
-app.get('/', (req, res) => res.send('API Running'));
+app.get('/', (req, res) => res.send('API RunninSg'));
 
 // WebSocket setup
 const http = require('http');
