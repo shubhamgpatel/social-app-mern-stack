@@ -1,6 +1,6 @@
 // import NavBar from './components/topbar/NavBar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Profile from './components/Profile';
+import Profile from './pages/Profile';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register'

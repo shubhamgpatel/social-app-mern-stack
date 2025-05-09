@@ -21,6 +21,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.error = null;
+      // localStorage.clear(); // Optional if you're using redux-persist
     },
   },
 });

@@ -3,17 +3,29 @@ import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { login } from "../redux/actions/authActions";
 import { FaSun, FaMoon } from 'react-icons/fa';
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
-  const {loading, error} = useSelector(state => state.auth);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-    const [darkMode, setDarkMode] = useState(
-      localStorage.getItem("theme") === "dark"  );
+  const {loading, error, user} = useSelector(state => state.auth);
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login(credentials));
+  };
+  // Redirect to home if login is successful
+  useEffect(() => {
+    if (user) {
+      navigate('/home');
+    }
+  }, [user, navigate]);
+
+    const [darkMode, setDarkMode] = useState(localStorage.getItem("theme") === "dark"  );
   
     useEffect(() => {
       const root = window.document.documentElement;
@@ -26,10 +38,6 @@ export default function Login() {
       }
     }, [darkMode]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(login({ email, password }));
-  };
     return (
       <>
         <button onClick={() => setDarkMode(!darkMode)} className="absolute top-4 right-4 text-white text-2xl focus:outline-none"> {darkMode ? <FaSun /> : <FaMoon />}</button>
@@ -41,14 +49,17 @@ export default function Login() {
           </div>
   
           <div className="flex-1 flex flex-col justify-center">
+          <form onSubmit={handleSubmit}>
             <div className="h-[300px] p-5 bg-white dark:bg-gray-800 rounded-[10px] flex flex-col justify-between shadow-md">
-              <input required type="email" placeholder="Email" className="h-[50px] rounded-[10px] border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-[18px] pl-5 focus:outline-none text-black dark:text-white"  value={email} onChange={(e) => setEmail(e.target.value)}/>
-              <input required type="password" placeholder="Password" className="h-[50px] rounded-[10px] border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-[18px] pl-5 focus:outline-none text-black dark:text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
-              <button onClick={handleSubmit} className="h-[50px] rounded-[10px] bg-[#1775ee] hover:bg-blue-700 text-white text-[20px] font-medium cursor-pointer"  disabled={loading}>  {loading ? 'Logging in...' : 'Login'} </button>
+              <input required type="email" placeholder="Email" className="h-[50px] rounded-[10px] border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-[18px] pl-5 focus:outline-none text-black dark:text-white"  name="email" value={credentials.email} onChange={handleChange}/>
+              <input required type="password" placeholder="Password" className="h-[50px] rounded-[10px] border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-[18px] pl-5 focus:outline-none text-black dark:text-white" name="password" value={credentials.password} onChange={handleChange} />
+              <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition" disabled={loading}> {loading ? 'Logging in...' : 'Login'} </button>
+              {error && <p className="text-red-600 text-sm text-center">{error}</p>}
               {/* {`w-full py-2 mt-4 bg-blue-500 text-white rounded-md ${loading ? 'opacity-50' : ''}`} */}
               <span className="text-center text-[#1775ee] dark:text-blue-400 cursor-pointer"> Forgot Password?</span>
               <button onClick={()=> navigate("/register")} className="w-[60%] self-center h-[50px] rounded-[10px] bg-[#42b72a] hover:bg-green-600 text-white text-[20px] font-medium cursor-pointer"> Create a New Account</button>
             </div>
+            </form>
           </div>
         </div>
       </div>
