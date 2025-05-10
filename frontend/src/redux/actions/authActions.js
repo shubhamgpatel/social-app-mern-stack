@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { loginStart, loginSuccess, loginFailure } from '../slices/authSlice';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 // Action to log in a user
 export const login = (credentials) => async (dispatch) => {

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { FaSun, FaMoon, FaUser, FaComments, FaBell, FaSearch } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"  );
 
@@ -30,7 +32,7 @@ export default function NavBar() {
       {/* Right - Icons & Toggle */}
       <div className="flex items-center space-x-4">
         {/* Links */}
-        <span className="hidden md:inline cursor-pointer">Home</span>
+        <span className="hidden md:inline cursor-pointer" onClick={()=> navigate("/home")}>Home</span>
         <span className="hidden md:inline cursor-pointer">Timeline</span>
 
         {/* Theme Toggle */}
@@ -40,7 +42,7 @@ export default function NavBar() {
 
         {/* Icons */}
         <div className="relative cursor-pointer">
-          <FaUser />
+          <FaUser onClick={()=> navigate("/profile")}/>
           <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
         </div>
         <div className="relative cursor-pointer">

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { login } from "../redux/actions/authActions";
 import { FaSun, FaMoon } from 'react-icons/fa';
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
